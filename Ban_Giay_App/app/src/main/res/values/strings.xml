@@ -19,4 +19,9 @@
     <string name="error_password_mismatch">Mật khẩu nhập lại không khớp</string>
     <string name="error_no_connection">Không có kết nối mạng, vui lòng thử lại</string>
     <string name="price_label">Giá: %1$s</string>
+
+    <!-- Payment -->
+    <string name="payment_credit_card">Thanh toán bằng thẻ tín dụng</string>
+    <string name="payment_atm_card">Thanh toán bằng thẻ ATM</string>
+    <string name="payment_cod">Thanh toán khi nhận hàng</string>
 </resources>
