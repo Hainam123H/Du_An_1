@@ -28,7 +28,6 @@ import com.poly.ban_giay_app.models.Product;
 import com.poly.ban_giay_app.network.ApiClient;
 import com.poly.ban_giay_app.network.ApiService;
 import com.poly.ban_giay_app.network.NetworkUtils;
-import com.poly.ban_giay_app.network.model.BaseResponse;
 import com.poly.ban_giay_app.network.model.ProductResponse;
 
 import java.util.ArrayList;
