@@ -1,12 +1,20 @@
 package com.poly.ban_giay_app.network;
 
 import com.poly.ban_giay_app.network.model.AuthResponse;
+import com.poly.ban_giay_app.network.model.BankInfoResponse;
 import com.poly.ban_giay_app.network.model.BaseResponse;
+import com.poly.ban_giay_app.network.model.OrderResponse;
+import com.poly.ban_giay_app.network.model.CreatePaymentResponse;
+import com.poly.ban_giay_app.network.model.ProcessPaymentResponse;
 import com.poly.ban_giay_app.network.model.ProductListResponse;
 import com.poly.ban_giay_app.network.model.ProductResponse;
 import com.poly.ban_giay_app.network.model.UserResponse;
 import com.poly.ban_giay_app.network.request.ForgotPasswordRequest;
 import com.poly.ban_giay_app.network.request.LoginRequest;
+import com.poly.ban_giay_app.network.request.OrderRequest;
+import com.poly.ban_giay_app.network.request.PaymentRequest;
+import com.poly.ban_giay_app.network.request.CreatePaymentRequest;
+import com.poly.ban_giay_app.network.request.CreditCardPaymentRequest;
 import com.poly.ban_giay_app.network.request.ProductRequest;
 import com.poly.ban_giay_app.network.request.RegisterRequest;
 import com.poly.ban_giay_app.network.request.StockUpdateRequest;
@@ -110,4 +118,36 @@ public interface ApiService {
     // Lấy tất cả sản phẩm (legacy)
     @GET("products")
     Call<BaseResponse<List<ProductResponse>>> getAllProducts();
+
+    // ==================== ORDER APIs ====================
+    // POST http://YOUR_IP:3000/api/order
+    // Tạo đơn hàng mới
+    @POST("order")
+    Call<BaseResponse<OrderResponse>> createOrder(@Body OrderRequest request);
+
+    // GET http://YOUR_IP:3000/api/order
+    // Lấy danh sách đơn hàng của user hiện tại
+    @GET("order")
+    Call<BaseResponse<List<OrderResponse>>> getMyOrders();
+
+    // GET http://YOUR_IP:3000/api/order/:id
+    // Lấy chi tiết đơn hàng theo ID
+    @GET("order/{id}")
+    Call<BaseResponse<OrderResponse>> getOrderById(@Path("id") String id);
+
+    // PUT http://YOUR_IP:3000/api/order/:id/cancel
+    // Hủy đơn hàng
+    @PUT("order/{id}/cancel")
+    Call<BaseResponse<OrderResponse>> cancelOrder(@Path("id") String id);
+
+    // ==================== PAYMENT APIs ====================
+    // POST http://YOUR_IP:3000/api/payment/create-payment
+    // Tạo đơn thanh toán (ghi vào MongoDB)
+    @POST("payment/create-payment")
+    Call<BaseResponse<CreatePaymentResponse>> createPayment(@Body CreatePaymentRequest request);
+
+    // POST http://YOUR_IP:3000/api/payment/process-credit-card
+    // Xử lý thanh toán thẻ tín dụng cho đơn đã tạo
+    @POST("payment/process-credit-card")
+    Call<BaseResponse<ProcessPaymentResponse>> processCreditCard(@Body CreditCardPaymentRequest request);
 }

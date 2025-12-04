@@ -38,25 +38,67 @@ public final class NetworkUtils {
 
     public static String extractErrorMessage(Response<?> response) {
         if (response == null || response.errorBody() == null) {
+            // Kiểm tra status code nếu có
+            if (response != null) {
+                int code = response.code();
+                if (code == 404) {
+                    return "Không tìm thấy endpoint này trên server. Vui lòng kiểm tra server API đã được khởi động lại chưa.";
+                }
+            }
             return "Có lỗi xảy ra. Vui lòng thử lại.";
         }
         ResponseBody errorBody = response.errorBody();
         try {
             String raw = errorBody.string();
             if (TextUtils.isEmpty(raw)) {
+                // Kiểm tra status code
+                int code = response.code();
+                if (code == 404) {
+                    return "Không tìm thấy endpoint. Vui lòng kiểm tra server API.";
+                }
                 return "Có lỗi xảy ra. Vui lòng thử lại.";
             }
-            JSONObject json = new JSONObject(raw);
-            if (json.has("message")) {
-                return json.getString("message");
+            
+            // Kiểm tra nếu response là HTML (thường là 404 page từ Express)
+            if (raw.trim().startsWith("<!DOCTYPE") || raw.trim().startsWith("<html")) {
+                int code = response.code();
+                if (code == 404) {
+                    // Trích xuất thông báo lỗi từ HTML nếu có
+                    if (raw.contains("Cannot POST") || raw.contains("Cannot GET") || raw.contains("Cannot PUT") || raw.contains("Cannot DELETE")) {
+                        String method = response.raw().request().method();
+                        String path = response.raw().request().url().encodedPath();
+                        return String.format("Không tìm thấy endpoint: %s %s. Vui lòng kiểm tra:\n1. Server API đã được khởi động lại chưa\n2. Routes đã được đăng ký đúng chưa", method, path);
+                    }
+                    return "Không tìm thấy endpoint này trên server. Vui lòng kiểm tra server API đã được khởi động lại chưa.";
+                }
+                return "Server trả về lỗi. Status code: " + response.code();
             }
-            if (json.has("error")) {
-                return json.getString("error");
+            
+            // Thử parse JSON
+            try {
+                JSONObject json = new JSONObject(raw);
+                if (json.has("message")) {
+                    return json.getString("message");
+                }
+                if (json.has("error")) {
+                    return json.getString("error");
+                }
+                return raw;
+            } catch (org.json.JSONException e) {
+                // Không phải JSON, trả về raw message hoặc status code
+                int code = response.code();
+                if (code == 404) {
+                    return "Không tìm thấy endpoint. Vui lòng kiểm tra server API đã được khởi động lại chưa.";
+                }
+                return "Lỗi từ server (HTTP " + code + "): " + raw;
             }
-            return raw;
         } catch (Exception e) {
             Log.e(TAG, "extractErrorMessage: ", e);
-            return "Không thể kết nối máy chủ.";
+            int code = response.code();
+            if (code == 404) {
+                return "Không tìm thấy endpoint này trên server. Vui lòng kiểm tra server API đã được khởi động lại chưa.";
+            }
+            return "Không thể kết nối máy chủ. Status code: " + code;
         } finally {
             try {
                 errorBody.close();

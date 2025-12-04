@@ -44,6 +44,9 @@ app.use("/api/product", require("./routes/product.routes"));
 // Payment
 app.use("/api/payment", require("./routes/payment.routes"));
 
+// Order
+app.use("/api/order", require("./routes/order.routes"));
+
 // ------------------- Server -------------------
 const PORT = process.env.PORT || 3000;
 // Listen trên tất cả interfaces (0.0.0.0) để có thể truy cập từ mạng local

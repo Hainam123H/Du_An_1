@@ -10,12 +10,13 @@ android {
         applicationId "com.poly.ban_giay_app"
         minSdk 29
         targetSdk 36
-        versionCode 1
+        versionCode 1   
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         // Base URL cho API
         // Emulator (Android Studio) truy cập host qua 10.0.2.2
+        // Hoặc dùng IP thực của máy tính: 192.168.1.6 (nếu 10.0.2.2 không hoạt động)
         buildConfigField "String", "API_BASE_URL", "\"http://10.0.2.2:3000/api/\""
     }
 
@@ -46,6 +47,10 @@ dependencies {
     implementation libs.okhttp.logging
     // Glide for loading images from URL
     implementation 'com.github.bumptech.glide:glide:4.16.0'
+    // ZXing for QR code generation
+    implementation 'com.journeyapps:zxing-android-embedded:4.3.0'
+    // ZXing core (các class như QRCodeWriter, BitMatrix, WriterException...)
+    implementation 'com.google.zxing:core:3.5.3'
     testImplementation libs.junit
     androidTestImplementation libs.ext.junit
     androidTestImplementation libs.espresso.core

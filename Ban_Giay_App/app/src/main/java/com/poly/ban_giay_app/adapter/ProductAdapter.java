@@ -56,6 +56,10 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.VH> {
                         .load(p.imageUrl)
                         .placeholder(R.drawable.giaymau)
                         .error(R.drawable.giaymau)
+                        .thumbnail(0.1f) // Load thumbnail trước để hiển thị nhanh
+                        .centerCrop() // Tối ưu hiển thị
+                        .diskCacheStrategy(com.bumptech.glide.load.engine.DiskCacheStrategy.ALL) // Cache ảnh
+                        .skipMemoryCache(false) // Sử dụng memory cache
                         .into(holder.img);
             } else {
                 int imageResId = getImageResourceId(holder.itemView.getContext(), p.imageUrl);
