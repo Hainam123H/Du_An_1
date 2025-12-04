@@ -11,6 +11,7 @@
         android:id="@+id/layoutToolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:padding="16dp"
         android:gravity="center_vertical"
         android:background="#FFFFFF"
@@ -26,6 +27,7 @@
             app:tint="#888888" />
 
         <TextView
+            android:id="@+id/tvBack"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -79,6 +81,7 @@
 
                 <!-- Payment options -->
                 <LinearLayout
+                    android:id="@+id/layoutCreditCard"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
@@ -86,6 +89,7 @@
                     android:paddingTop="8dp"
                     android:paddingBottom="24dp"
                     android:clickable="true"
+                    android:focusable="true"
                     android:foreground="?attr/selectableItemBackground">
 
                     <ImageView
@@ -109,6 +113,7 @@
                     android:background="#E0E0E0" />
 
                 <LinearLayout
+                    android:id="@+id/layoutAtmCard"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
@@ -116,6 +121,7 @@
                     android:paddingTop="24dp"
                     android:paddingBottom="24dp"
                     android:clickable="true"
+                    android:focusable="true"
                     android:foreground="?attr/selectableItemBackground">
 
                     <ImageView
@@ -139,25 +145,27 @@
                     android:background="#E0E0E0" />
 
                 <LinearLayout
+                    android:id="@+id/layoutBankTransfer"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:gravity="center_vertical"
                     android:paddingTop="24dp"
                     android:clickable="true"
+                    android:focusable="true"
                     android:foreground="?attr/selectableItemBackground">
 
                     <ImageView
                         android:layout_width="56dp"
                         android:layout_height="56dp"
-                        android:src="@drawable/ic_payment_cash"
-                        android:contentDescription="@string/payment_cod" />
+                        android:src="@drawable/ic_payment_bank"
+                        android:contentDescription="Thanh toán ngân hàng" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
-                        android:text="Thanh toán khi nhận hàng"
+                        android:text="Thanh toán ngân hàng"
                         android:textSize="18sp"
                         android:textColor="#000000" />
                 </LinearLayout>
@@ -189,14 +197,14 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/ic_home"
-                app:tint="#006C67" />
+                app:tint="#000000" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Trang chủ"
                 android:textSize="11sp"
-                android:textColor="#006C67" />
+                android:textColor="#000000" />
         </LinearLayout>
 
         <!-- Category -->

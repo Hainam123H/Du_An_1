@@ -65,7 +65,7 @@ public class ProductDetailActivity extends AppCompatActivity {
         txtPriceOld = findViewById(R.id.txtPriceOld);
         txtPriceNew = findViewById(R.id.txtPriceNew);
         txtQuantity = findViewById(R.id.txtQuantity);
-        
+
         btnSize37 = findViewById(R.id.btnSize37);
         btnSize38 = findViewById(R.id.btnSize38);
         btnSize39 = findViewById(R.id.btnSize39);
@@ -112,19 +112,28 @@ public class ProductDetailActivity extends AppCompatActivity {
                 Toast.makeText(this, "Vui lòng chọn kích thước", Toast.LENGTH_SHORT).show();
                 return;
             }
-            // TODO: Buy now logic
-            Toast.makeText(this, "Đang chuyển đến trang thanh toán...", Toast.LENGTH_SHORT).show();
+            // Điều hướng sang màn hình phương thức thanh toán
+            android.content.Intent intent = new android.content.Intent(
+                    ProductDetailActivity.this,
+                    PaymentMethodActivity.class
+            );
+            // Truyền sản phẩm đã chọn
+            intent.putExtra("product", product);
+            // Truyền thêm size và số lượng
+            intent.putExtra("selectedSize", selectedSize);
+            intent.putExtra("quantity", quantity);
+            startActivity(intent);
         });
     }
 
     private void selectSize(String size, Button button) {
         selectedSize = size;
-        
+
         // Reset all buttons - chữ màu trắng, không có gạch chân
         resetButton(btnSize37, "37");
         resetButton(btnSize38, "38");
         resetButton(btnSize39, "39");
-        
+
         // Highlight selected button - có gạch chân
         String buttonText = button.getText().toString();
         SpannableString spannableString = new SpannableString(buttonText);
@@ -133,7 +142,7 @@ public class ProductDetailActivity extends AppCompatActivity {
         button.setBackgroundResource(R.drawable.bg_size_button_selected);
         button.setTextColor(ContextCompat.getColor(this, android.R.color.white));
     }
-    
+
     private void resetButton(Button button, String text) {
         button.setBackgroundResource(R.drawable.bg_size_button);
         button.setText(text);
@@ -149,6 +158,10 @@ public class ProductDetailActivity extends AppCompatActivity {
                         .load(product.imageUrl)
                         .placeholder(R.drawable.giaymau)
                         .error(R.drawable.giaymau)
+                        .thumbnail(0.1f) // Load thumbnail trước để hiển thị nhanh
+                        .centerCrop() // Tối ưu hiển thị
+                        .diskCacheStrategy(com.bumptech.glide.load.engine.DiskCacheStrategy.ALL) // Cache ảnh
+                        .skipMemoryCache(false) // Sử dụng memory cache
                         .into(imgProduct);
             } else {
                 // Nếu là tên file ảnh (giay15, giay14, etc.), load từ drawable
@@ -164,29 +177,29 @@ public class ProductDetailActivity extends AppCompatActivity {
         } else {
             imgProduct.setImageResource(R.drawable.giaymau);
         }
-        
+
         txtProductName.setText(product.name);
-        
+
         // Extract brand from product name (first word after "Giày")
         String brand = product.name.replace("Giày ", "").split(" ")[0];
         txtBrand.setText(brand);
-        
+
         // Rating (5 stars)
         txtRating.setText("★★★★★");
-        
+
         // Price
         String priceOldText = "Giá gốc: " + product.priceOld;
         SpannableString ss = new SpannableString(priceOldText);
         int startIndex = priceOldText.indexOf(product.priceOld);
         ss.setSpan(new StrikethroughSpan(), startIndex, priceOldText.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         txtPriceOld.setText(ss);
-        
+
         txtPriceNew.setText("Giá khuyến mãi: " + product.priceNew);
-        
+
         // Quantity
         txtQuantity.setText(String.valueOf(quantity));
     }
-    
+
     /**
      * Lấy resource ID từ tên file ảnh (giay15, giay14, etc.)
      */
@@ -199,9 +212,10 @@ public class ProductDetailActivity extends AppCompatActivity {
         if (name.contains(".")) {
             name = name.substring(0, name.lastIndexOf("."));
         }
-        
+
         // Map tên file với resource ID
         return getResources().getIdentifier(name, "drawable", getPackageName());
     }
+
 }
 

@@ -3,6 +3,7 @@ package com.poly.ban_giay_app.models;
 import java.io.Serializable;
 
 public class Product implements Serializable {
+    public String id; // ID sản phẩm từ MongoDB
     public String name;
     public String priceOld;
     public String priceNew;
@@ -15,6 +16,7 @@ public class Product implements Serializable {
         this.priceNew = priceNew;
         this.imageRes = imageRes;
         this.imageUrl = null;
+        this.id = null;
     }
 
     public Product(String name, String priceOld, String priceNew, String imageUrl) {
@@ -23,6 +25,7 @@ public class Product implements Serializable {
         this.priceNew = priceNew;
         this.imageUrl = imageUrl;
         this.imageRes = 0;
+        this.id = null;
     }
 }
 

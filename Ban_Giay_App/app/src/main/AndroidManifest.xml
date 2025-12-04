@@ -51,6 +51,30 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
+        <activity
+            android:name=".CreditCardActivity"
+            android:exported="false"
+            android:parentActivityName=".PaymentMethodActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".PaymentMethodActivity" />
+        </activity>
+        <activity
+            android:name=".AtmCardActivity"
+            android:exported="false"
+            android:parentActivityName=".PaymentMethodActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".PaymentMethodActivity" />
+        </activity>
+        <activity
+            android:name=".BankTransferActivity"
+            android:exported="false"
+            android:parentActivityName=".PaymentMethodActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".PaymentMethodActivity" />
+        </activity>
     </application>
 
 </manifest>
